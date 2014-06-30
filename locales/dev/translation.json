@@ -127,7 +127,8 @@
         "urii": "URI",
         "edit": "Edit",
         "noalias": "No alias yet,",
-        "registerr": "register one!"
+        "registerr": "register one!",
+	"pending": "Pending"
     },
     "openorders": {
         "openorders": "Open Orders",
@@ -182,7 +183,13 @@
         "date": "Date",
         "askid": "Ask Order ID",
         "bidid": "Bid Order ID",
-        "nohistory": "No trade history available."
+        "nohistory": "No trade history available.",
+	"bookmark": "Bookmark this asset",
+	"addasset": "Add asset",
+	"notfound": "No assets found that match search query.",
+	"assetoraccountid": "ASSET OR ACCOUNT ID <i class='fa fa-question-circle show_popover' style='color:#4CAA6E' data-content='Find the ID on the issuer's website or announcement page.' data-container='body'></i>",
+	"id": "ID",
+	"cancel": "Cancel"
     },
     "config": {
         "settings": "Settings",
@@ -408,9 +415,11 @@
         "group": "GROUP",
         "addtogroup": "Add to Group",
         "removegroup": "Remove from Group",
-        "addignore": "Add to ignore list",
         "accinfo": "Account Info",
-        "downloadblockchain": "Downloading blockchain<span class='loading_dots'><span>.</span><span>.</span><span>.</span></span><div class='progress progress-striped sm active' style='margin-bottom:5px;margin-top:5px;'><div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%;'><span class='sr-only'>0% Complete</span></div></div>"
+        "downloadblockchain": "Downloading blockchain<span class='loading_dots'><span>.</span><span>.</span><span>.</span></span><div class='progress progress-striped sm active' style='margin-bottom:5px;margin-top:5px;'><div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%;'><span class='sr-only'>0% Complete</span></div></div>",
+	"infomodalalias": "Alias <strong><span id='alias_info_modal_alias'></span></strong>",
+	"removebookmark": "Remove from bookmarks",
+	"edit": "Edit"
     },
 	"js": {
 		"aliasref": "The alias will reference the account number entered and can be used to send Nhz to, messages, etc..",
