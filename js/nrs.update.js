@@ -16,27 +16,28 @@ var NRS = (function(NRS, $, undefined) {
 		}
 
 		//Get latest version nr+hash of normal version
-		NRS.sendRequest("getAliasURI", {
-			"alias": "nrsversion"
+		NRS.sendRequest("getAlias", {
+			"aliasName": "nrsversion"
 		}, function(response) {
-			if (response.uri && (response = response.uri.split(" "))) {
+			if (response.aliasURI && (response = response.aliasURI.split(" "))) {
 				NRS.normalVersion.versionNr = response[0];
 				NRS.normalVersion.hash = response[1];
-				if (NRS.normalVersion.versionNr) {
+
+				if (NRS.betaVersion.versionNr) {
 					NRS.checkForNewVersion();
 				}
 			}
 		});
 
 		//Get latest version nr+hash of beta version
-		NRS.sendRequest("getAliasURI", {
-			"alias": "nrsbetaversion"
+		NRS.sendRequest("getAlias", {
+			"aliasName": "nrsbetaversion"
 		}, function(response) {
-			if (response.uri && (response = response.uri.split(" "))) {
+			if (response.aliasURI && (response = response.aliasURI.split(" "))) {
 				NRS.betaVersion.versionNr = response[0];
 				NRS.betaVersion.hash = response[1];
 
-				if (NRS.betaVersion.versionNr) {
+				if (NRS.normalVersion.versionNr) {
 					NRS.checkForNewVersion();
 				}
 			}
@@ -196,8 +197,6 @@ var NRS = (function(NRS, $, undefined) {
 					$("#nrs_update_result").html(i18n.t("js.noproceed")).attr("class", "incorrect");
 				}
 
-				
-				
 				$("#nrs_update_hash_version").html(NRS.downloadedVersion.versionNr);
 				$("#nrs_update_hash_download").html(e.data.sha256);
 				$("#nrs_update_hash_official").html(NRS.downloadedVersion.hash);

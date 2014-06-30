@@ -44,12 +44,13 @@ var NRS = (function(NRS, $, undefined) {
 		$list.empty();
 
 		for (var accountId in NRS.contacts) {
-			$list.append("<li><a href='#' data-contact='" + String(NRS.contacts[accountId]).name.escapeHTML() + "'>" + String(NRS.contacts[accountId].name).escapeHTML() + "</a></li>");
+			$list.append("<li><a href='#' data-contact='" + String(NRS.contacts[accountId].name).escapeHTML() + "'>" + String(NRS.contacts[accountId].name).escapeHTML() + "</a></li>");
 		}
 	});
 
 	$("span.recipient_selector").on("click", "ul li a", function(e) {
 		e.preventDefault();
+		$(this).closest("form").find("input[name=converted_account_id]").val("");
 		$(this).closest("form").find("input[name=recipient],input[name=account_id]").val($(this).data("contact")).trigger("blur");
 	});
 
@@ -96,9 +97,6 @@ var NRS = (function(NRS, $, undefined) {
 							"message": i18n.t("js.malformed") + (!/^(NHZ\-)/i.test(accountId) ? i18n.t("js.wannatype") : ""),
 							"account": null
 						});
-						
-						
-						
 					} else if (response.errorCode == 5) {
 						callback({
 							"type": "warning",
@@ -141,8 +139,6 @@ var NRS = (function(NRS, $, undefined) {
 		if (/^(NHZ\-)?[A-Z0-9]+\-[A-Z0-9]+\-[A-Z0-9]+\-[A-Z0-9]+/i.test(account)) {
 			var address = new NhzAddress();
 
-			
-			
 			if (address.set(account)) {
 				NRS.getAccountError(account, function(response) {
 					if (response.account) {
@@ -217,28 +213,24 @@ var NRS = (function(NRS, $, undefined) {
 
 		accountInputField.val("");
 
-		NRS.sendRequest("getAliasId", {
-			"alias": account
+		NRS.sendRequest("getAlias", {
+			"aliasName": account
 		}, function(response) {
-			if (response.id) {
-				NRS.sendRequest("getAlias", {
-					"alias": response.id
-				}, function(response) {
 					if (response.errorCode) {
 						callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? i18n.t("js.err") + response.errorDescription.escapeHTML() : i18n.t("js.errnoali")).show();
 					} else {
-						if (response.uri) {
-							var alias = response.uri;
+						if (response.aliasURI) {
+							var alias = String(response.aliasURI);
 							var timestamp = response.timestamp;
 
 							var regex_1 = /acct:(\d+)@nhz/;
 							var regex_2 = /nacc:(\d+)/;
 
-							var match = alias.match(regex_1);
+					var match = alias.match(regex_1);
 
-							if (!match) {
-								match = alias.match(regex_2);
-							}
+					if (!match) {
+						match = alias.match(regex_2);
+					}
 
 							if (match && match[1]) {
 								NRS.getAccountError(match[1], function(response) {
@@ -248,16 +240,14 @@ var NRS = (function(NRS, $, undefined) {
 							} else {
 								callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.aliasnoacclink") + (!alias ? i18n.t("js.uriempty") : i18n.t("js.uriis") + alias.escapeHTML() + "'")).show();
 							}
-						} else if (response.alias) {
+						} else if (response.aliasName) {
 							callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.aliasemptyuri")).show();
 						} else {
-							callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? i18n.t("js.err") + response.errorDescription.escapeHTML() : "The alias does not exist.").show();
+							callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? "Error: " + response.errorDescription.escapeHTML() : i18n.t("js.aliasnoexist")).show();
 						}
 					}
 				});
-			} else {
-				callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? "Error: " + response.errorDescription.escapeHTML() : i18n.t("js.aliasnoexist")).show();
-			}
+			
 		});
 	}
 

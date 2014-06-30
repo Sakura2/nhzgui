@@ -24,7 +24,7 @@
                 <img src="img/nhz_logo_small.png" height="50" />
             </a>
             <nav class="navbar navbar-static-top" role="navigation">
-				<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -398,7 +398,7 @@
                 	<section class="content-header">
                 		<h1 data-i18n="alias.alias"></h1>
                 		<div style="position:absolute;top:9px;right:9px;">
-							<form action="#" method="get" class="sidebar-form" id="asset_search" style="width:180px;margin:0;display:inline-block;vertical-align:middle;">
+							<form action="#" method="get" class="sidebar-form" id="alias_search" style="width:180px;margin:0;display:inline-block;vertical-align:middle;">
 								<div class="input-group">
 									<input type="text" name="q" class="form-control" data-i18n="[placeholder]alias.search">
 									<span class="input-group-btn">
@@ -561,6 +561,8 @@
 	                <section class="content-header">
 	                	<h1 data-i18n="aepage.aepage"></h1>
 	                	<div style="position:absolute;top:9px;right:9px;">
+		                	<button type="button" class="btn btn-sm btn-default" id="asset_exchange_add_asset_bookmark" data-toggle="modal" data-target="#add_asset_bookmark_modal" data-i18n="aepage.addasset"></button>
+	                		<button type="button" class="btn btn-sm btn-default" id="asset_exchange_bookmark_this_asset" style="display:none" data-i18n="aepage.bookmark"></button>
 		                	<button type="button" class="btn btn-sm btn-default" id="asset_exchange_clear_search" style="display:none" data-i18n="aepage.clear"></button>
 	                	</div>
 	                </section>
@@ -575,7 +577,7 @@
 													<div class="input-group">
 														<input type="text" name="q" class="form-control" data-i18n="[placeholder]aepage.search">
 														<span class="input-group-btn">
-														<button type="submit" name="seach" class="btn btn-flat"><i class="fa fa-search"></i></button>
+														<button type="submit" name="seach" class="btn btn-flat" style="padding-left:3px"><i class="fa fa-search"></i></button>
 														</span>
 													</div>
 												</form>     
@@ -589,6 +591,7 @@
 						         <div class="content-splitter-right">
 						         	<div class="content-splitter-right-inner">
 						         		<div id="no_assets_available" style="padding-top: 150px;text-align:center;display:none;" data-i18n="aepage.noavailable"></div>
+						         		<div id="no_asset_search_results" style="padding-top: 150px;text-align:center;display:none;" data-i18n="aepage.notfound"></div>
 						         		<div id="no_asset_selected" style="padding-top: 150px;text-align:center;" data-i18n="aepage.select"></div>
 						         		<div id="loading_asset_data" style="padding-top: 150px;text-align:center;display: none;" data-i18n="aepage.assetload"><br /><br /><img class="loading" src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
 						         		<div id="asset_details" style="display:none;">
@@ -731,7 +734,7 @@
 										                        		</div>
 										                        	</div>
 										                        	<div class="form-group">
-										                        		<label for="sell_asset_total" class="col-sm-3 control-label" data-i18n="aepage.total">Total</label>
+										                        		<label for="sell_asset_total" class="col-sm-3 control-label" data-i18n="aepage.total"></label>
 										                        		<div class="col-sm-9">
 										                        			<div class="input-group">
 										                        				<input type="text" name="sell_asset_total" id="sell_asset_total" readonly value="0" class="form-control disabled" />
@@ -1193,14 +1196,13 @@
                		<section class="content-header">
                			<h1 data-i18n="blocks.blocks"></h1>
 						<div style="position:absolute;top:9px;right:9px;">
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-									<span class="text" data-i18n="blocks.allblocks"></span> <span class="caret"></span>
-								</button>
-					        	<ul id="blocks_page_type" class="dropdown-menu" role="menu" style="right:0;left:auto;">
-					        		<li><a href="#" data-type="all_blocks" data-i18n="blocks.allblocks"></a></li>
-					          		<li><a href="#" data-type="forged_blocks" data-i18n="blocks.byyou"></a></li>
-					          	</ul>
+							<div class="btn-group" data-toggle="buttons" id="blocks_page_type">
+								<label class="btn btn-default active">
+									<input type="radio" name="blocks_page_type" data-i18n="blocks.allblocks">
+								</label>
+								<label class="btn btn-default">
+									<input type="radio" name="blocks_page_type" data-i18n="blocks.byyou">
+								</label>
 							</div>
 	                	</div>
                		</section>
@@ -1292,10 +1294,7 @@
 	                </section>
 				</div>
             </aside>
-        </div>
-
-		
-	
+        </div>	
 		
 		<div id="testnet_warning" style="display:none;position:fixed;bottom:0;left:0;padding:5px;background:red;color:white;border-top-right-radius:5px;"><strong>Warning</strong>: You are connected to the TestNet. Do not use your real password!</div>
 
@@ -1433,18 +1432,15 @@
 		        				</div>
 		                	</div>
 		                </div>
-<div id="custom_passphrase_link" style="margin-top:30px;text-align:center;display:none;">
-			    		<a href="#" style="color: #555555;" onclick="NRS.registerUserDefinedAccount();" data-i18n="lockscreen.chooseown"></a>
-					</div>
+						<div id="custom_passphrase_link" style="margin-top:30px;text-align:center;display:none;">
+			    			<a href="#" style="color: #555555;" onclick="NRS.registerUserDefinedAccount();" data-i18n="lockscreen.chooseown"></a>
+						</div>
 		            </div>  
 	            
-		            
 				</td>
 				</tr>
 			</table>	       
 		</div>
-		
-		<div class="modals">
 
 		<div class="modal fade" id="lease_balance_modal" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog">
@@ -1718,6 +1714,33 @@
 			</div>
 		</div>
 		
+		<div class="modal fade" id="add_asset_bookmark_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="aepage.addasset"></h4>
+		      		</div>
+			      	<div class="modal-body">			
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="add_asset_bookmark_id" data-i18n="[html]aepage.assetoraccountid"></label>
+								<input type="text" class="form-control" name="id" id="add_asset_bookmark_id" data-i18n="[placeholder]aepage.id" autofocus tabindex="1" />
+							</div>
+						</form>
+			    	</div>
+					<div class="modal-footer" style="margin-top:0;">
+						<input type="hidden" name="request_type" value="addAssetBookmark" />
+						<input type="hidden" name="success_message" value="The asset has been added!" />
+						<input type="hidden" name="error_message" value="An unknown error occured!" />
+				    	<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="aepage.cancel"></button>
+				        <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="aepage.addasset"></button>
+				    </div>
+				</div>
+			</div>
+		</div>
+
 		<div class="modal fade" id="add_contact_modal" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog">
 		    	<div class="modal-content">
@@ -2222,12 +2245,12 @@
 							</div>
 							<div class="form-group">
 								<label for="register_alias_alias" data-i18n="modals.alias"></label>
-								<input type="text" class="form-control" name="alias" id="register_alias_alias" placeholder="Alias" tabindex="1" />
+								<input type="text" class="form-control" name="aliasName" id="register_alias_alias" placeholder="Alias" tabindex="1" />
 								<p id="register_alias_alias_noneditable" style="display:none"></p>
 							</div>
 							<div class="form-group">
 								<label for="register_alias_uri" id="register_alias_uri_label" data-i18n="modals.uri"></label>
-								<input type="text" class="form-control" name="uri" id="register_alias_uri" placeholder="URI" tabindex="2" />
+								<input type="text" class="form-control" name="aliasURI" id="register_alias_uri" placeholder="URI" tabindex="2" />
 								<p class="help-block" id="register_alias_help"></p>
 							</div>
 							<div class="row">
@@ -2252,7 +2275,7 @@
 					</div>
 			      	<div class="modal-footer" style="margin-top:0;">
 			      		<input type="hidden" name="register_alias_alias_update" id="register_alias_alias_update" value="0" />
-			      		<input type="hidden" name="request_type" value="assignAlias" />
+			      		<input type="hidden" name="request_type" value="setAlias" />
 			      		<input type="hidden" name="success_message" value="Your alias has been registered!" />
 			      		<input type="hidden" name="error_message" value="An unknown error occured! Alias may or may not be registered." />
 				        <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
@@ -2383,6 +2406,27 @@
 			</div>
 		</div>
 		
+		<div class="modal fade" id="alias_info_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="[html]alias.infomodalalias></h4>
+		     		</div>
+			      	<div class="modal-body">
+			      		<table class="table table-striped" id="alias_info_table" style="margin-bottom: 0;">
+			      		    <tbody>
+			      		    	
+			      		    </tbody>
+			      		</table>
+					</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="alias.close"></button>
+			     	</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="modal fade" id="user_info_modal" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-wider">
 		    	<div class="modal-content">
@@ -2719,7 +2763,7 @@
 		    <ul class="dropdown-menu" data-container="body" role="menu" style="display:block;position:static;margin-bottom:5px;">
 		        <li><a tabindex="-1" href="#" data-option="add_to_group" data-i18n="modals.addtogroup"></a></li>
 		        <li><a tabindex="-1" href="#" data-option="remove_from_group" data-class="list-group-item-grouped" data-i18n="modals.removegroup"></a></li>
-		        <li><a tabindex="-1" href="#" data-option="add_to_ignore_list" data-i18n="modals.addignore"></a></li>
+		        <li><a tabindex="-1" href="#" data-option="remove_from_bookmarks" data-class="not_owns_asset" data-i18n="modals.removebookmark"></a></li>
 		    </ul>
 		</div>
 		
@@ -2802,6 +2846,7 @@
         <script src="js/3rdparty/jsbn.js" type="text/javascript"></script>
         <script src="js/3rdparty/jsbn2.js" type="text/javascript"></script>
         <script src="js/3rdparty/big.js" type="text/javascript"></script>
+     <!--   <script src="js/3rdparty/addclear.js" type="text/javascript"></script> -->
 
         <script src="js/util/extensions.js" type="text/javascript"></script>
         <script src="js/util/converters.js" type="text/javascript"></script>
