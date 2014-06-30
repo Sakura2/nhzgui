@@ -206,7 +206,7 @@
         "formwarnings": "Formular Warnungen",
         "warnamounthigher": "Zeigt eine Warnung wenn der Betrag / Gebühr die unten auszuwählenden Grenzwerte übersteigt .",
         "maxamwarning": "Max Betrag Warnung",
-        "maxfeewarning": "Max Gebüht Warnung",
+        "maxfeewarning": "Max Gebühr Warnung",
         "maxaetwarning": "Max Asset Transfer Warnung",
         "themeset": "Theme Settings",
         "header": "Header",
