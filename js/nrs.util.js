@@ -268,7 +268,7 @@ var NRS = (function(NRS, $, undefined) {
 			price = new BigInteger(String(price));
 		}
 
-		return NRS.convertToNXT(price.multiply(new BigInteger("" + Math.pow(10, decimals))), returnAsObject);
+		return NRS.convertToNHZ(price.multiply(new BigInteger("" + Math.pow(10, decimals))), returnAsObject);
 	}
 
 	NRS.calculatePricePerWholeQNT = function(price, decimals) {
@@ -311,7 +311,7 @@ var NRS = (function(NRS, $, undefined) {
 			priceNQT = new BigInteger(String(priceNQT));
 		}
 
-		return NRS.convertToNXT(quantityQNT.multiply(priceNQT));
+		return NRS.convertToNHZ(quantityQNT.multiply(priceNQT));
 	}
 
 	NRS.calculatePercentage = function(a, b) {
@@ -323,7 +323,7 @@ var NRS = (function(NRS, $, undefined) {
 		return result.toString();
 	}
 
-	NRS.convertToNXT = function(amount, returnAsObject) {
+	NRS.convertToNHZ = function(amount, returnAsObject) {
 		var negative = "";
 		var afterComma = "";
 
@@ -538,7 +538,7 @@ var NRS = (function(NRS, $, undefined) {
 		var formattedAmount = "";
 
 		if (typeof amount == "object") {
-			var params = NRS.convertToNXT(amount, true);
+			var params = NRS.convertToNHZ(amount, true);
 
 			negative = params.negative;
 			amount = params.amount;
@@ -572,7 +572,7 @@ var NRS = (function(NRS, $, undefined) {
 	}
 
 	NRS.formatTimestamp = function(timestamp, date_only) {
-		var date = new Date(Date.UTC(2013, 10, 24, 12, 0, 0, 0) + timestamp * 1000);
+		var date = new Date(Date.UTC(2014, 02, 22, 22, 22, 0, 0) + timestamp * 1000);
 
 		if (!isNaN(date) && typeof(date.getFullYear) == 'function') {
 			var d = date.getDate();
@@ -616,7 +616,7 @@ var NRS = (function(NRS, $, undefined) {
 	}
 
 	NRS.formatTime = function(timestamp) {
-		var date = new Date(Date.UTC(2013, 10, 24, 12, 0, 0, 0) + timestamp * 1000);
+		var date = new Date(Date.UTC(2014, 02, 22, 22, 22, 0, 0) + timestamp * 1000);
 
 		if (!isNaN(date) && typeof(date.getFullYear) == 'function') {
 			var res = "";
@@ -692,11 +692,11 @@ var NRS = (function(NRS, $, undefined) {
 	}
 
 	NRS.generatePublicKey = function(secretPhrase) {
-		return nxtCrypto.getPublicKey(converters.stringToHexString(secretPhrase));
+		return nhzCrypto.getPublicKey(converters.stringToHexString(secretPhrase));
 	}
 
 	NRS.generateAccountId = function(secretPhrase) {
-		return nxtCrypto.getAccountId(secretPhrase);
+		return nhzCrypto.getAccountId(secretPhrase);
 	}
 
 	NRS.getFormData = function($form) {
@@ -903,7 +903,7 @@ var NRS = (function(NRS, $, undefined) {
 					value = NRS.formatQuantity(value, 0);
 				}
 			} else if (key == "Price" || key == "Total" || key == "Amount" || key == "Fee") {
-				value = NRS.formatAmount(new BigInteger(value)) + " NXT";
+				value = NRS.formatAmount(new BigInteger(value)) + " NHZ";
 			} else if (key == "Sender" || key == "Recipient") {
 				value = "<a href='#' data-user='" + String(value).escapeHTML() + "'>" + NRS.getAccountTitle(value) + "</a>";
 			} else {

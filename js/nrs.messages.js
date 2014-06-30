@@ -233,7 +233,7 @@ var NRS = (function(NRS, $, undefined) {
 		if (option == "add_contact") {
 			$("#add_contact_account_id").val(account).trigger("blur");
 			$("#add_contact_modal").modal("show");
-		} else if (option == "send_nxt") {
+		} else if (option == "send_nhz") {
 			$("#send_money_recipient").val(account).trigger("blur");
 			$("#send_money_modal").modal("show");
 		} else if (option == "account_info") {
@@ -251,7 +251,7 @@ var NRS = (function(NRS, $, undefined) {
 
 		if (option == "update_contact") {
 			$("#update_contact_modal").modal("show");
-		} else if (option == "send_nxt") {
+		} else if (option == "send_nhz") {
 			$("#send_money_recipient").val(NRS.selectedContext.data("contact")).trigger("blur");
 			$("#send_money_modal").modal("show");
 		}
@@ -260,7 +260,7 @@ var NRS = (function(NRS, $, undefined) {
 
 	NRS.encryptMessage = function(secretPhrase, publicKey, message) {
 		try {
-			var privateKey = converters.hexStringToByteArray(nxtCrypto.getPrivateKey(secretPhrase));
+			var privateKey = converters.hexStringToByteArray(nhzCrypto.getPrivateKey(secretPhrase));
 			var publicKey = converters.hexStringToByteArray(publicKey);
 
 			var messageBytes = converters.stringToByteArray(message);
@@ -275,7 +275,7 @@ var NRS = (function(NRS, $, undefined) {
 
 	NRS.decryptMessage = function(secretPhrase, publicKey, message) {
 		if (typeof secretPhrase == "string") {
-			var privateKey = converters.hexStringToByteArray(nxtCrypto.getPrivateKey(secretPhrase));
+			var privateKey = converters.hexStringToByteArray(nhzCrypto.getPrivateKey(secretPhrase));
 		} else {
 			var privateKey = secretPhrase;
 		}
@@ -306,7 +306,7 @@ var NRS = (function(NRS, $, undefined) {
 	NRS.forms.sendMessage = function($modal) {
 		var data = {
 			"recipient": $.trim($("#send_message_recipient").val()),
-			"feeNXT": $.trim($("#send_message_fee").val()),
+			"feeNHZ": $.trim($("#send_message_fee").val()),
 			"deadline": $.trim($("#send_message_deadline").val()),
 			"secretPhrase": $.trim($("#send_message_password").val())
 		};
@@ -315,10 +315,11 @@ var NRS = (function(NRS, $, undefined) {
 
 		if (!message) {
 			return {
-				"error": "Message is a required field."
+				"error": i18n.t("js.msgrequired")
 			};
 		}
 
+		
 		var hex = "";
 		var error = "";
 
@@ -327,7 +328,7 @@ var NRS = (function(NRS, $, undefined) {
 				"account": $("#send_message_recipient").val()
 			}, function(response) {
 				if (!response.publicKey) {
-					error = "Could not find public key for recipient, which is necessary for sending encrypted messages.";
+					error = i18n.t("js.errnoenc");
 					return;
 				}
 
@@ -367,14 +368,14 @@ var NRS = (function(NRS, $, undefined) {
 
 		var data = {
 			"recipient": $.trim($("#inline_message_recipient").val()),
-			"feeNXT": "1",
+			"feeNHZ": "1",
 			"deadline": "1440",
 			"secretPhrase": $.trim($("#inline_message_password").val())
 		};
 
 		if (!NRS.rememberPassword) {
 			if ($("#inline_message_password").val() == "") {
-				$.growl("Secret phrase is a required field.", {
+				$.growl(i18n.t("js.secreq"), {
 					"type": "danger"
 				});
 				return;
@@ -383,7 +384,7 @@ var NRS = (function(NRS, $, undefined) {
 			var accountId = NRS.generateAccountId(data.secretPhrase);
 
 			if (accountId != NRS.account) {
-				$.growl("Incorrect secret phrase.", {
+				$.growl(i18n.t("js.secincor"), {
 					"type": "danger"
 				});
 				return;
@@ -393,7 +394,7 @@ var NRS = (function(NRS, $, undefined) {
 		var message = $.trim($("#inline_message_text").val());
 
 		if (!message) {
-			$.growl("Message is a required field.", {
+			$.growl(i18n.t("js.msgrequired"), {
 				"type": "danger"
 			});
 			return;
@@ -411,7 +412,7 @@ var NRS = (function(NRS, $, undefined) {
 				"account": $("#inline_message_recipient").val()
 			}, function(response) {
 				if (!response.publicKey) {
-					$.growl("Could not find public key for recipient, which is necessary for sending encrypted messages.", {
+					$.growl(i18n.t("js.errornoenc"), {
 						"type": "danger"
 					});
 				}
@@ -429,11 +430,11 @@ var NRS = (function(NRS, $, undefined) {
 
 		NRS.sendRequest("sendMessage", data, function(response, input) {
 			if (response.errorCode) {
-				$.growl(response.errorDescription ? response.errorDescription.escapeHTML() : "Unknown error occured.", {
+				$.growl(response.errorDescription ? response.errorDescription.escapeHTML() : i18n.t("js.unknownerror"), {
 					type: "danger"
 				});
 			} else if (response.fullHash) {
-				$.growl("Message sent.", {
+				$.growl(i18n.t("js.msgsent"), {
 					type: "success"
 				});
 
@@ -445,9 +446,10 @@ var NRS = (function(NRS, $, undefined) {
 					}
 				});
 
+							
 				//leave password alone until user moves to another page.
 			} else {
-				$.growl("An unknown error occured. Your message may or may not have been sent.", {
+				$.growl(i18n.t("js.unknownerrormsg"), {
 					type: "danger"
 				});
 			}
@@ -458,18 +460,19 @@ var NRS = (function(NRS, $, undefined) {
 	NRS.forms.sendMessageComplete = function(response, data) {
 		data.message = data._extra.message;
 
+				
 		if (!(data["_extra"] && data["_extra"].convertedAccount)) {
-			$.growl("Your message has been sent! <a href='#' data-account='" + NRS.getAccountFormatted(data, "recipient") + "' data-toggle='modal' data-target='#add_contact_modal' style='text-decoration:underline'>Add recipient to contacts?</a>", {
+			$.growl(i18n.t("js.msgsenthtml") + NRS.getAccountFormatted(data, "recipient") + i18n.t("js.msgsenthtmll"), {
 				"type": "success"
 			});
 		} else {
-			$.growl("Your message has been sent!", {
+			$.growl(i18n.t("js.yourmsgsent"), {
 				"type": "success"
 			});
 		}
 
 		if (NRS.currentPage == "messages") {
-			var date = new Date(Date.UTC(2013, 10, 24, 12, 0, 0, 0)).getTime();
+			var date = new Date(Date.UTC(2014, 02, 22, 22, 22, 0, 0)).getTime();
 
 			var now = parseInt(((new Date().getTime()) - date) / 1000, 10);
 

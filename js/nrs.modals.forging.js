@@ -8,17 +8,19 @@ var NRS = (function(NRS, $, undefined) {
 			$("#forging_indicator").addClass("forging");
 			$("#forging_indicator span").html("Forging");
 			NRS.isForging = true;
-			$.growl("Forging started successfully.", {
+			$.growl(i18n.t("js.forgingstartsuc"), {
 				type: "success"
 			});
 		} else {
 			NRS.isForging = false;
-			$.growl("Couldn't start forging, unknown error.", {
+			$.growl(i18n.t("js.noforgestarterror"), {
 				type: 'danger'
 			});
 		}
 	}
 
+	
+	
 	NRS.forms.stopForgingComplete = function(response, data) {
 		if ($("#stop_forging_modal .show_logout").css("display") == "inline") {
 			NRS.logout();
@@ -31,38 +33,42 @@ var NRS = (function(NRS, $, undefined) {
 		NRS.isForging = false;
 
 		if (response.foundAndStopped) {
-			$.growl("Forging stopped successfully.", {
+			$.growl(i18n.t("js.forgingstopsuc"), {
 				type: 'success'
 			});
 		} else {
-			$.growl("You weren't forging to begin with.", {
+			$.growl(i18n.t("js.werentforging"), {
 				type: 'danger'
 			});
 		}
 	}
 
+	
+	
 	$("#forging_indicator").click(function(e) {
 		e.preventDefault();
 
+		i18n.t("js.msgsenthtml")
+				
 		if (NRS.downloadingBlockchain) {
-			$.growl("The blockchain is busy downloading, you cannot forge during this time. Please try again when the blockchain is fully synced.", {
+			$.growl(i18n.t("js.noforgebcdown"), {
 				"type": "danger"
 			});
 		} else if (NRS.state.isScanning) {
-			$.growl("The blockchain is currently being rescanned, you cannot forge during this time. Please try again in a minute.", {
+			$.growl(i18n.t("js.noforgebcrescan"), {
 				"type": "danger"
 			});
 		} else if (!NRS.accountInfo.publicKey) {
-			$.growl("You cannot forge because your account has no public key. Please make an outgoing transaction first.", {
+			$.growl(i18n.t("js.noforgepublickey"), {
 				"type": "danger"
 			});
-		} else if (NRS.accountInfo.effectiveBalanceNXT == 0) {
+		} else if (NRS.accountInfo.effectiveBalanceNHZ == 0) {
 			if (NRS.lastBlockHeight >= NRS.accountInfo.currentLeasingHeightFrom && NRS.lastBlockHeight <= NRS.accountInfo.currentLeasingHeightTo) {
-				$.growl("Your effective balance is leased out, you cannot forge at the moment.", {
+				$.growl(i18n.t("js.noforgeleasedout"), {
 					"type": "danger"
 				});
 			} else {
-				$.growl("Your effective balance is zero, you cannot forge.", {
+				$.growl(i18n.t("js.noforgebalance"), {
 					"type": "danger"
 				});
 			}

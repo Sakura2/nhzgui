@@ -123,7 +123,7 @@ var NRS = (function(NRS, $, undefined) {
 			"optionsAreBinary": "0",
 			"minNumberOfOptions": $("#create_poll_min_options").val(),
 			"maxNumberOfOptions": $("#create_poll_max_options").val(),
-			"feeNXT": "1",
+			"feeNHZ": "1",
 			"deadline": "24",
 			"secretPhrase": $("#create_poll_password").val()
 		};
@@ -142,7 +142,7 @@ var NRS = (function(NRS, $, undefined) {
 		if (NRS.currentPage == "polls") {
 			var $table = $("#polls_table tbody");
 
-			var date = new Date(Date.UTC(2013, 10, 24, 12, 0, 0, 0)).getTime();
+			var date = new Date(Date.UTC(2014, 02, 22, 22, 22, 0, 0)).getTime();
 
 			var now = parseInt(((new Date().getTime()) - date) / 1000, 10);
 

@@ -4,7 +4,7 @@ var hash = {
 	getBytes: SHA256_finalize
 };
 
-var nxtCrypto = function(curve25519, hash, converters) {
+var nhzCrypto = function(curve25519, hash, converters) {
 
 	function simpleHash(message) {
 		hash.init();

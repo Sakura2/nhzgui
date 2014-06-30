@@ -53,13 +53,14 @@ var NRS = (function(NRS, $, undefined) {
 		$(this).closest("form").find("input[name=recipient],input[name=account_id]").val($(this).data("contact")).trigger("blur");
 	});
 
+		
 	NRS.forms.sendMoneyComplete = function(response, data) {
 		if (!(data["_extra"] && data["_extra"].convertedAccount) && !(data.recipient in NRS.contacts)) {
-			$.growl("NXT has been sent! <a href='#' data-account='" + NRS.getAccountFormatted(data, "recipient") + "' data-toggle='modal' data-target='#add_contact_modal' style='text-decoration:underline'>Add recipient to contacts?</a>", {
+			$.growl(i18n.t("js.hasbeensent") + NRS.getAccountFormatted(data, "recipient") + i18n.t("js.addtocontacts"), {
 				"type": "success"
 			});
 		} else {
-			$.growl("NXT has been sent!", {
+			$.growl(i18n.t("js.hasbeensentt"), {
 				"type": "success"
 			});
 		}
@@ -76,6 +77,7 @@ var NRS = (function(NRS, $, undefined) {
 		});
 	}
 
+	
 	NRS.getAccountError = function(accountId, callback) {
 		NRS.sendRequest("getAccount", {
 			"account": accountId
@@ -83,7 +85,7 @@ var NRS = (function(NRS, $, undefined) {
 			if (response.publicKey) {
 				callback({
 					"type": "info",
-					"message": "The recipient account has a public key and a balance of " + NRS.formatAmount(response.unconfirmedBalanceNQT, false, true) + "NXT.",
+					"message": i18n.t("js.rechasbal") + NRS.formatAmount(response.unconfirmedBalanceNQT, false, true) + "NHZ.",
 					"account": response
 				});
 			} else {
@@ -91,26 +93,29 @@ var NRS = (function(NRS, $, undefined) {
 					if (response.errorCode == 4) {
 						callback({
 							"type": "danger",
-							"message": "The recipient account is malformed, please adjust." + (!/^(NXT\-)/i.test(accountId) ? " If you want to type an alias, prepend it with the @ character." : ""),
+							"message": i18n.t("js.malformed") + (!/^(NHZ\-)/i.test(accountId) ? i18n.t("js.wannatype") : ""),
 							"account": null
 						});
+						
+						
+						
 					} else if (response.errorCode == 5) {
 						callback({
 							"type": "warning",
-							"message": "The recipient account is an unknown account, meaning it has never had an incoming or outgoing transaction. Please double check your recipient address before submitting.",
+							"message": i18n.t("js.recunknown"),
 							"account": null
 						});
 					} else {
 						callback({
 							"type": "danger",
-							"message": "There is a problem with the recipient account: " + response.errorDescription,
+							"message": i18n.t("js.recprob") + response.errorDescription,
 							"account": null
 						});
 					}
 				} else {
 					callback({
 						"type": "warning",
-						"message": "The recipient account does not have a public key, meaning it has never had an outgoing transaction. The account has a balance of " + NRS.formatAmount(response.unconfirmedBalanceNQT, false, true) + " NXT. Please double check your recipient address before submitting.",
+						"message": i18n.t("js.recnotrans") + NRS.formatAmount(response.unconfirmedBalanceNQT, false, true) + i18n.t("js.doublecheck"),
 						"account": response
 					});
 				}
@@ -133,13 +138,15 @@ var NRS = (function(NRS, $, undefined) {
 		account = $.trim(account);
 
 		//solomon reed. Btw, this regex can be shortened..
-		if (/^(NXT\-)?[A-Z0-9]+\-[A-Z0-9]+\-[A-Z0-9]+\-[A-Z0-9]+/i.test(account)) {
-			var address = new NxtAddress();
+		if (/^(NHZ\-)?[A-Z0-9]+\-[A-Z0-9]+\-[A-Z0-9]+\-[A-Z0-9]+/i.test(account)) {
+			var address = new NhzAddress();
 
+			
+			
 			if (address.set(account)) {
 				NRS.getAccountError(account, function(response) {
 					if (response.account) {
-						var message = "The recipient address translates to account <strong>" + String(response.account.account).escapeHTML() + "</strong>, " + response.message.replace("The recipient account", "which").escapeHTML();
+						var message = i18n.t("js.rectranslate") + String(response.account.account).escapeHTML() + "</strong>, " + response.message.replace("The recipient account", "which").escapeHTML();
 					} else {
 						var message = response.message.escapeHTML();
 					}
@@ -149,16 +156,19 @@ var NRS = (function(NRS, $, undefined) {
 			} else {
 				if (address.guess.length == 1) {
 
-					callout.removeClass(classes).addClass("callout-danger").html("The recipient address is malformed, did you mean <span class='malformed_address' data-address='" + String(address.guess[0]).escapeHTML() + "' onclick='NRS.correctAddressMistake(this);'>" + address.format_guess(address.guess[0], account) + "</span> ?").show();
+				
+				
+				
+					callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.didyoumean") + String(address.guess[0]).escapeHTML() + "' onclick='NRS.correctAddressMistake(this);'>" + address.format_guess(address.guess[0], account) + "</span> ?").show();
 				} else if (address.guess.length > 1) {
-					var html = "The recipient address is malformed, did you mean:<ul>";
+					var html = i18n.t("js.didyoumeann");
 					for (var i = 0; i < adr.guess.length; i++) {
 						html += "<li><span clas='malformed_address' data-address='" + String(address.guess[i]).escapeHTML() + "' onclick='NRS.correctAddressMistake(this);'>" + adddress.format_guess(address.guess[i], account) + "</span></li>";
 					}
 
 					callout.removeClass(classes).addClass("callout-danger").html(html).show();
 				} else {
-					callout.removeClass(classes).addClass("callout-danger").html("The recipient address is malformed, please adjust.").show();
+					callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.malformed")).show();
 				}
 			}
 		} else if (!(/^\d+$/.test(account))) {
@@ -169,7 +179,7 @@ var NRS = (function(NRS, $, undefined) {
 					if (!error && contact.length) {
 						contact = contact[0];
 						NRS.getAccountError((NRS.settings["reed_solomon"] ? contact.accountRS : contact.account), function(response) {
-							callout.removeClass(classes).addClass("callout-" + response.type).html("The contact links to account <strong>" + NRS.getAccountFormatted(contact, "account") + "</strong>. " + response.message.escapeHTML()).show();
+							callout.removeClass(classes).addClass("callout-" + response.type).html(i18n.t("js.contactlinksto") + NRS.getAccountFormatted(contact, "account") + "</strong>. " + response.message.escapeHTML()).show();
 
 							if (response.type == "info" || response.type == "warning") {
 								if (NRS.settings["reed_solomon"]) {
@@ -182,7 +192,7 @@ var NRS = (function(NRS, $, undefined) {
 					} else if (/^[a-z0-9]+$/i.test(account)) {
 						NRS.checkRecipientAlias(account, modal);
 					} else {
-						callout.removeClass(classes).addClass("callout-danger").html("The recipient account is malformed, please adjust.").show();
+						callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.malformed")).show();
 					}
 				});
 			} else if (/^[a-z0-9@]+$/i.test(account)) {
@@ -191,7 +201,7 @@ var NRS = (function(NRS, $, undefined) {
 					NRS.checkRecipientAlias(account, modal);
 				}
 			} else {
-				callout.removeClass(classes).addClass("callout-danger").html("The recipient account is malformed, please adjust.").show();
+				callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.malformed")).show();
 			}
 		} else {
 			NRS.getAccountError(account, function(response) {
@@ -215,13 +225,13 @@ var NRS = (function(NRS, $, undefined) {
 					"alias": response.id
 				}, function(response) {
 					if (response.errorCode) {
-						callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? "Error: " + response.errorDescription.escapeHTML() : "The alias does not exist.").show();
+						callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? i18n.t("js.err") + response.errorDescription.escapeHTML() : i18n.t("js.errnoali")).show();
 					} else {
 						if (response.uri) {
 							var alias = response.uri;
 							var timestamp = response.timestamp;
 
-							var regex_1 = /acct:(\d+)@nxt/;
+							var regex_1 = /acct:(\d+)@nhz/;
 							var regex_2 = /nacc:(\d+)/;
 
 							var match = alias.match(regex_1);
@@ -233,20 +243,20 @@ var NRS = (function(NRS, $, undefined) {
 							if (match && match[1]) {
 								NRS.getAccountError(match[1], function(response) {
 									accountInputField.val(match[1].escapeHTML());
-									callout.html("The alias links to account <strong>" + match[1].escapeHTML() + "</strong>, " + response.message.replace("The recipient account", "which") + " The alias was last adjusted on " + NRS.formatTimestamp(timestamp) + ".").removeClass(classes).addClass("callout-" + response.type).show();
+									callout.html(i18n.t("js.aliaslinksto") + match[1].escapeHTML() + "</strong>, " + response.message.replace("The recipient account", "which") + i18n.t("js.aliaslastadj") + NRS.formatTimestamp(timestamp) + ".").removeClass(classes).addClass("callout-" + response.type).show();
 								});
 							} else {
-								callout.removeClass(classes).addClass("callout-danger").html("The alias does not link to an account. " + (!alias ? "The URI is empty." : "The URI is '" + alias.escapeHTML() + "'")).show();
+								callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.aliasnoacclink") + (!alias ? i18n.t("js.uriempty") : i18n.t("js.uriis") + alias.escapeHTML() + "'")).show();
 							}
 						} else if (response.alias) {
-							callout.removeClass(classes).addClass("callout-danger").html("The alias links to an empty URI.").show();
+							callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.aliasemptyuri")).show();
 						} else {
-							callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? "Error: " + response.errorDescription.escapeHTML() : "The alias does not exist.").show();
+							callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? i18n.t("js.err") + response.errorDescription.escapeHTML() : "The alias does not exist.").show();
 						}
 					}
 				});
 			} else {
-				callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? "Error: " + response.errorDescription.escapeHTML() : "The alias does not exist.").show();
+				callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? "Error: " + response.errorDescription.escapeHTML() : i18n.t("js.aliasnoexist")).show();
 			}
 		});
 	}

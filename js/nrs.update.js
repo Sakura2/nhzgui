@@ -22,8 +22,7 @@ var NRS = (function(NRS, $, undefined) {
 			if (response.uri && (response = response.uri.split(" "))) {
 				NRS.normalVersion.versionNr = response[0];
 				NRS.normalVersion.hash = response[1];
-
-				if (NRS.betaVersion.versionNr) {
+				if (NRS.normalVersion.versionNr) {
 					NRS.checkForNewVersion();
 				}
 			}
@@ -37,7 +36,7 @@ var NRS = (function(NRS, $, undefined) {
 				NRS.betaVersion.versionNr = response[0];
 				NRS.betaVersion.hash = response[1];
 
-				if (NRS.normalVersion.versionNr) {
+				if (NRS.betaVersion.versionNr) {
 					NRS.checkForNewVersion();
 				}
 			}
@@ -83,6 +82,9 @@ var NRS = (function(NRS, $, undefined) {
 			return -1;
 		}
 
+                v1 = v1.substr(5);
+		v2 = v2.substr(5);
+		
 		//https://gist.github.com/TheDistantSea/8021359 (based on)
 		var v1last = v1.slice(-1);
 		var v2last = v2.slice(-1);
@@ -189,11 +191,13 @@ var NRS = (function(NRS, $, undefined) {
 				$("#nrs_update_drop_zone").hide();
 
 				if (e.data.sha256 == NRS.downloadedVersion.hash) {
-					$("#nrs_update_result").html("The downloaded version has been verified, the hash is correct. You may proceed with the installation.").attr("class", " ");
+					$("#nrs_update_result").html(i18n.t("js.proceed")).attr("class", " ");
 				} else {
-					$("#nrs_update_result").html("The downloaded version hash does not compare to the specified hash in the blockchain. DO NOT PROCEED.").attr("class", "incorrect");
+					$("#nrs_update_result").html(i18n.t("js.noproceed")).attr("class", "incorrect");
 				}
 
+				
+				
 				$("#nrs_update_hash_version").html(NRS.downloadedVersion.versionNr);
 				$("#nrs_update_hash_download").html(e.data.sha256);
 				$("#nrs_update_hash_official").html(NRS.downloadedVersion.hash);
@@ -229,7 +233,8 @@ var NRS = (function(NRS, $, undefined) {
 			}, "*");
 			$("#nrs_modal").modal("hide");
 		} else {
-			$("#nrs_update_iframe").attr("src", "https://bitbucket.org/JeanLucPicard/nxt/downloads/nxt-client-" + NRS.downloadedVersion.versionNr + ".zip");
+			var filename = NRS.downloadedVersion.versionNr.toLowerCase();
+			$("#nrs_update_iframe").attr("src", "http://files.nhzcrypto.org/binaries/" + filename + ".zip");
 			$("#nrs_update_explanation").hide();
 			$("#nrs_update_drop_zone").show();
 

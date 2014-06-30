@@ -10,7 +10,7 @@ var NRS = (function(NRS, $, undefined) {
 			}
 		});
 	}
-
+	
 	NRS.showLoginOrWelcomeScreen = function() {
 		if (NRS.hasLocalStorage && localStorage.getItem("logged_in")) {
 			NRS.showLoginScreen();
@@ -51,7 +51,7 @@ var NRS = (function(NRS, $, undefined) {
 		var $loaded = $("#account_phrase_generator_loaded");
 
 		if (window.crypto || window.msCrypto) {
-			$loading.find("span.loading_text").html("Generating your secret phrase. Please wait");
+			$loading.find("span.loading_text").html(i18n.t("js.gensecretwait"));
 		}
 
 		$loading.show();
@@ -67,7 +67,7 @@ var NRS = (function(NRS, $, undefined) {
 
 				PassPhraseGenerator.generatePassPhrase("#account_phrase_generator_panel");
 			}).fail(function(jqxhr, settings, exception) {
-				alert("Could not load word list...");
+				alert(i18n.t("js.nowordlist"));
 			});
 		} else {
 			$loading.hide();
@@ -85,7 +85,7 @@ var NRS = (function(NRS, $, undefined) {
 		} else {
 			NRS.newlyCreatedAccount = true;
 			NRS.login(password, function() {
-				$.growl("Secret phrase confirmed successfully, you are now logged in.", {
+				$.growl(i18n.t("js.phraseconfirmed"), {
 					"type": "success"
 				});
 			});
@@ -104,11 +104,11 @@ var NRS = (function(NRS, $, undefined) {
 		var error = "";
 
 		if (password.length < 35) {
-			error = "Secret phrase must be at least 35 characters long.";
+			error = i18n.t("js.phraseminlength");
 		} else if (password.length < 50 && (!password.match(/[A-Z]/) || !password.match(/[0-9]/))) {
-			error = "Since your secret phrase is less than 50 characters long, it must contain numbers and uppercase letters.";
+			error = i18n.t("js.uppercaseandnumbers");
 		} else if (password != repeat) {
-			error = "Secret phrases do not match.";
+			error = i18n.t("js.phrasesnomatch");
 		}
 
 		if (error) {
@@ -116,7 +116,7 @@ var NRS = (function(NRS, $, undefined) {
 		} else {
 			$("#registration_password, #registration_password_repeat").val("");
 			NRS.login(password, function() {
-				$.growl("Secret phrase confirmed successfully, you are now logged in.", {
+				$.growl(i18n.t("js.phraseconfirmed"), {
 					"type": "success"
 				});
 			});
@@ -127,7 +127,7 @@ var NRS = (function(NRS, $, undefined) {
 		$("#login_password, #registration_password, #registration_password_repeat").val("");
 
 		if (!password.length) {
-			$.growl("You must enter your secret phrase. If you don't have one, click the registration button below.", {
+			$.growl(i18n.t("js.mustenterphrase"), {
 				"type": "danger",
 				"offset": 10
 			});
@@ -136,7 +136,7 @@ var NRS = (function(NRS, $, undefined) {
 
 		NRS.sendRequest("getBlockchainStatus", function(response) {
 			if (response.errorCode) {
-				$.growl("Could not connect to server.", {
+				$.growl(i18n.t("js.noconnect"), {
 					"type": "danger",
 					"offset": 10
 				});
@@ -158,12 +158,12 @@ var NRS = (function(NRS, $, undefined) {
 					return;
 				}
 
-				var nxtAddress = new NxtAddress();
+				var nhzAddress = new NhzAddress();
 
-				if (nxtAddress.set(NRS.account)) {
-					NRS.accountRS = nxtAddress.toString();
+				if (nhzAddress.set(NRS.account)) {
+					NRS.accountRS = nhzAddress.toString();
 				} else {
-					$.growl("Could not generate Reed Solomon address.", {
+					$.growl(i18n.t("js.nors"), {
 						"type": "danger"
 					});
 				}
@@ -172,18 +172,19 @@ var NRS = (function(NRS, $, undefined) {
 					"account": NRS.account
 				}, function(response) {
 					if (response && response.publicKey && response.publicKey != NRS.generatePublicKey(password)) {
-						$.growl("This account is already taken. Please choose another pass phrase.", {
+						$.growl(i18n.t("js.alreadytaken"), {
 							"type": "danger",
 							"offset": 10
 						});
 						return;
 					}
 
+					
 					if ($("#remember_password").is(":checked")) {
 						NRS.rememberPassword = true;
 						$("#remember_password").prop("checked", false);
 						sessionStorage.setItem("secret", password);
-						$.growl("Remember to log out at the end of your session so as to clear the password from memory.", {
+						$.growl(i18n.t("js.rememberlogout"), {
 							"type": "danger"
 						});
 						$(".secret_phrase, .show_secret_phrase").hide();
@@ -198,18 +199,21 @@ var NRS = (function(NRS, $, undefined) {
 
 					var passwordNotice = "";
 
+										
 					if (password.length < 35) {
-						passwordNotice = "Your secret phrase is less than 35 characters long. This is not secure.";
+						passwordNotice = i18n.t("js.notsecurelength");
 					} else if (password.length < 50 && (!password.match(/[A-Z]/) || !password.match(/[0-9]/))) {
-						passwordNotice = "Your secret phrase does not contain numbers and uppercase letters. This is not secure.";
+						passwordNotice = i18n.t("js.notsecureletter");
 					}
 
 					if (passwordNotice) {
-						$.growl("<strong>Warning</strong>: " + passwordNotice, {
+						$.growl(i18n.t("js.warning") + passwordNotice, {
 							"type": "danger"
 						});
 					}
 
+					
+					
 					NRS.getAccountInfo(true, function() {
 						if (NRS.accountInfo.currentLeasingHeightFrom) {
 							NRS.isLeased = (NRS.lastBlockHeight >= NRS.accountInfo.currentLeasingHeightFrom && NRS.lastBlockHeight <= NRS.accountInfo.currentLeasingHeightTo);
@@ -218,7 +222,7 @@ var NRS = (function(NRS, $, undefined) {
 						}
 
 						//forging requires password to be sent to the server, so we don't do it automatically if not localhost
-						if (!NRS.accountInfo.publicKey || NRS.accountInfo.effectiveBalanceNXT == 0 || !NRS.isLocalHost || NRS.downloadingBlockchain || NRS.isLeased) {
+						if (!NRS.accountInfo.publicKey || NRS.accountInfo.effectiveBalanceNHZ == 0 || !NRS.isLocalHost || NRS.downloadingBlockchain || NRS.isLeased) {
 							$("#forging_indicator").removeClass("forging");
 							$("#forging_indicator span").html("Not Forging");
 							$("#forging_indicator").show();
@@ -246,11 +250,12 @@ var NRS = (function(NRS, $, undefined) {
 					NRS.unlock();
 
 					if (NRS.isOutdated) {
-						$.growl("A new NRS release is available. It is recommended that you update.", {
+						$.growl(i18n.t("js.outdated"), {
 							"type": "danger"
 						});
 					}
 
+					
 					NRS.setupClipboardFunctionality();
 
 					if (callback) {

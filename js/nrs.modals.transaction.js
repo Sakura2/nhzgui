@@ -84,10 +84,12 @@ var NRS = (function(NRS, $, undefined) {
 							"account": (transaction.recipient == NRS.account ? transaction.sender : transaction.recipient)
 						}, function(response) {
 							if (!response.publicKey) {
-								$.growl("Could not find public key for recipient, which is necessary for sending encrypted messages.", {
+								$.growl(i18n.t("js.norec"), {
 									"type": "danger"
 								});
 							}
+							
+							
 
 							message = NRS.decryptMessage("return {\"requestType\": \"sendMessage\", \"data\": data};", response.publicKey, hex);
 						}, false);
@@ -95,7 +97,10 @@ var NRS = (function(NRS, $, undefined) {
 						try {
 							message = converters.hexStringToString(hex);
 						} catch (err) {
-							message = "Could not convert hex to string: " + hex;
+							message = i18n.t("js.nohexstring") + hex;
+						
+						
+						
 						}
 					}
 
@@ -108,8 +113,8 @@ var NRS = (function(NRS, $, undefined) {
 							sender_info = "<strong>From</strong>: " + NRS.getAccountTitle(transaction, "sender");
 						}
 					} else {
-						sender_info = "<strong>To</strong>: " + NRS.getAccountTitle(transaction, "recipient") + "<br />";
-						sender_info += "<strong>From</strong>: " + NRS.getAccountTitle(transaction, "sender");
+						sender_info = i18n.t("js.to") + NRS.getAccountTitle(transaction, "recipient") + "<br />";
+						sender_info += i18n.t("js.from") + NRS.getAccountTitle(transaction, "sender");
 					}
 
 					$("#transaction_info_output").html(message.escapeHTML().nl2br() + "<br /><br />" + sender_info).show();
@@ -196,7 +201,9 @@ var NRS = (function(NRS, $, undefined) {
 						data["Sender"] = NRS.getAccountTitle(transaction, "sender");
 					}
 
-					$("#transaction_info_callout").html("<a href='#' data-goto-asset='" + String(transaction.transaction).escapeHTML() + "'>Click here</a> to view this asset in the Asset Exchange.").show();
+					
+					
+					$("#transaction_info_callout").html("<a href='#' data-goto-asset='" + String(transaction.transaction).escapeHTML() + i18n.t("js.viewinae")).show();
 
 					$("#transaction_info_table tbody").append(NRS.createInfoTable(data));
 					$("#transaction_info_table").show();

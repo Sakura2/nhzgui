@@ -22,7 +22,7 @@ var NRS = (function(NRS, $, undefined) {
 			data: data
 		}).done(function(json) {
 			if (json.errorCode && !json.errorDescription) {
-				json.errorDescription = (json.errorMessage ? json.errorMessage : "Unknown error occured.");
+				json.errorDescription = (json.errorMessage ? json.errorMessage : i18n.t("js.unknownerror"));
 			}
 			if (callback) {
 				callback(json, data);
@@ -58,17 +58,17 @@ var NRS = (function(NRS, $, undefined) {
 			}
 		});
 
-		//convert NXT to NQT...
+		//convert NHZ to NQT...
 		try {
-			var nxtFields = ["feeNXT", "amountNXT"];
+			var nhzFields = ["feeNHZ", "amountNHZ"];
 
-			for (var i = 0; i < nxtFields.length; i++) {
-				var nxtField = nxtFields[i];
-				var field = nxtField.replace("NXT", "");
+			for (var i = 0; i < nhzFields.length; i++) {
+				var nhzField = nhzFields[i];
+				var field = nhzField.replace("NHZ", "");
 
-				if (nxtField in data) {
-					data[field + "NQT"] = NRS.convertToNQT(data[nxtField]);
-					delete data[nxtField];
+				if (nhzField in data) {
+					data[field + "NQT"] = NRS.convertToNQT(data[nhzField]);
+					delete data[nhzField];
 				}
 			}
 		} catch (err) {
@@ -148,7 +148,7 @@ var NRS = (function(NRS, $, undefined) {
 		}
 
 		var type = ("secretPhrase" in data ? "POST" : "GET");
-		var url = NRS.server + "/nxt?requestType=" + requestType;
+		var url = NRS.server + "/nhz?requestType=" + requestType;
 
 		if (type == "GET") {
 			if (typeof data == "string") {
@@ -210,16 +210,16 @@ var NRS = (function(NRS, $, undefined) {
 			}
 
 			if (typeof data == "object" && "recipient" in data) {
-				if (/^NXT\-/i.test(data.recipient)) {
+				if (/^NHZ\-/i.test(data.recipient)) {
 					data.recipientRS = data.recipient;
 
-					var address = new NxtAddress();
+					var address = new NhzAddress();
 
 					if (address.set(data.recipient)) {
 						data.recipient = address.account_id();
 					}
 				} else {
-					var address = new NxtAddress();
+					var address = new NhzAddress();
 
 					if (address.set(data.recipient)) {
 						data.recipientRS = address.toString();
@@ -229,9 +229,9 @@ var NRS = (function(NRS, $, undefined) {
 
 			if (secretPhrase && response.unsignedTransactionBytes && !response.errorCode) {
 				var publicKey = NRS.generatePublicKey(secretPhrase);
-				var signature = nxtCrypto.sign(response.unsignedTransactionBytes, converters.stringToHexString(secretPhrase));
+				var signature = nhzCrypto.sign(response.unsignedTransactionBytes, converters.stringToHexString(secretPhrase));
 
-				if (!nxtCrypto.verify(signature, response.unsignedTransactionBytes, publicKey)) {
+				if (!nhzCrypto.verify(signature, response.unsignedTransactionBytes, publicKey)) {
 					if (callback) {
 						callback({
 							"errorCode": 1,
@@ -338,8 +338,8 @@ var NRS = (function(NRS, $, undefined) {
 
 		if (!("recipient" in data)) {
 			//recipient == genesis
-			data.recipient = "1739068987193023818";
-			data.recipientRS = "NXT-MRCC-2YLS-8M54-3CMAJ";
+			data.recipient = "13675701959091502344";
+			data.recipientRS = "NHZ-8HAA-H88W-UVT5-DUGLV";
 		}
 
 		if (transaction.senderPublicKey != NRS.accountInfo.publicKey) {
@@ -865,7 +865,7 @@ var NRS = (function(NRS, $, undefined) {
 
 	NRS.broadcastTransactionBytes = function(transactionData, callback, original_response, original_data) {
 		$.ajax({
-			url: NRS.server + "/nxt?requestType=broadcastTransaction",
+			url: NRS.server + "/nhz?requestType=broadcastTransaction",
 			crossDomain: true,
 			dataType: "json",
 			type: "POST",

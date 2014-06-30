@@ -6,7 +6,8 @@ var NRS = (function(NRS, $, undefined) {
 		"news": -1,
 		"fee_warning": "100000000000",
 		"amount_warning": "10000000000000",
-		"asset_transfer_warning": "10000"
+		"asset_transfer_warning": "10000",
+		"languages": 3
 	};
 
 	NRS.defaultColors = {
@@ -381,7 +382,7 @@ var NRS = (function(NRS, $, undefined) {
 		for (var key in NRS.settings) {
 			if (/_warning/i.test(key) && key != "asset_transfer_warning") {
 				if ($("#settings_" + key).length) {
-					$("#settings_" + key).val(NRS.convertToNXT(NRS.settings[key]));
+					$("#settings_" + key).val(NRS.convertToNHZ(NRS.settings[key]));
 				}
 			} else if (!/_color/i.test(key)) {
 				if ($("#settings_" + key).length) {
@@ -876,6 +877,45 @@ var NRS = (function(NRS, $, undefined) {
 				$(".modal form").off("submit.onEnter");
 			}
 		}
+		
+		if (!key || key == "languages") {
+			if (NRS.settings["languages"] == 0) {
+				i18n.setLng('en');
+			} else if (NRS.settings["languages"] == 1) {
+				i18n.setLng('de');
+			} else if (NRS.settings["languages"] == 2) {
+				i18n.setLng('es');
+			} else if (NRS.settings["languages"] == 3) {
+				i18n.setLng('zh');
+			}
+			i18n.init(function(t) {
+								
+				$(".nav").i18n();
+				$(".sidebar").i18n();
+				$(".dashboard").i18n();
+				$(".transactions").i18n();
+				$(".messages").i18n();
+				$(".contacts").i18n();
+				$(".polls").i18n();
+				$(".alias").i18n();
+				$(".openorders").i18n();
+				$(".myassets").i18n();
+				$(".aepage").i18n();
+				$(".config").i18n();
+				$(".peers").i18n();
+				$(".news").i18n();
+				$(".blocks").i18n();
+				$(".lockscreen").i18n();
+				$(".modals").i18n();
+				$(".js").i18n();
+
+				// programatical access
+				var appName = t("app.name");
+				});
+		
+		}
+		
+		
 
 		if (!key || key == "animate_forging") {
 			if (NRS.settings["animate_forging"]) {

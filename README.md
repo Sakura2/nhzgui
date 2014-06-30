@@ -1,4 +1,4 @@
-nxtgui
-======
+nxtui
+=====
 
-NXT GUI
+NXT client GUI

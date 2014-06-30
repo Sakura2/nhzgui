@@ -48,7 +48,7 @@ var NRS = (function(NRS, $, undefined) {
 						contactDescription = "-";
 					}
 
-					rows += "<tr><td><a href='#' data-toggle='modal' data-target='#update_contact_modal' data-contact='" + String(contact.id).escapeHTML() + "'>" + contact.name.escapeHTML() + "</a></td><td><a href='#' data-user='" + NRS.getAccountFormatted(contact, "account") + "' class='user_info'>" + NRS.getAccountFormatted(contact, "account") + "</a></td><td>" + (contact.email ? contact.email.escapeHTML() : "-") + "</td><td>" + contactDescription.escapeHTML() + "</td><td style='white-space:nowrap'><a class='btn btn-xs btn-default' href='#' data-toggle='modal' data-target='#send_money_modal' data-contact='" + String(contact.name).escapeHTML() + "'>Send Nxt</a> <a class='btn btn-xs btn-default' href='#' data-toggle='modal' data-target='#send_message_modal' data-contact='" + String(contact.name).escapeHTML() + "'>Message</a> <a class='btn btn-xs btn-default' href='#' data-toggle='modal' data-target='#delete_contact_modal' data-contact='" + String(contact.id).escapeHTML() + "'>Delete</a></td></tr>";
+					rows += "<tr><td><a href='#' data-toggle='modal' data-target='#update_contact_modal' data-contact='" + String(contact.id).escapeHTML() + "'>" + contact.name.escapeHTML() + "</a></td><td><a href='#' data-user='" + NRS.getAccountFormatted(contact, "account") + "' class='user_info'>" + NRS.getAccountFormatted(contact, "account") + "</a></td><td>" + (contact.email ? contact.email.escapeHTML() : "-") + "</td><td>" + contactDescription.escapeHTML() + "</td><td style='white-space:nowrap'><a class='btn btn-xs btn-default' href='#' data-toggle='modal' data-target='#send_money_modal' data-contact='" + String(contact.name).escapeHTML() + "'>Send Nhz</a> <a class='btn btn-xs btn-default' href='#' data-toggle='modal' data-target='#send_message_modal' data-contact='" + String(contact.name).escapeHTML() + "'>Message</a> <a class='btn btn-xs btn-default' href='#' data-toggle='modal' data-target='#delete_contact_modal' data-contact='" + String(contact.id).escapeHTML() + "'>Delete</a></td></tr>";
 				});
 
 				$("#contacts_table tbody").empty().append(rows);
@@ -79,7 +79,7 @@ var NRS = (function(NRS, $, undefined) {
 			};
 		}
 
-		if (/^\d+$/.test(data.name) || /^NXT\-/i.test(data.name)) {
+		if (/^\d+$/.test(data.name) || /^NHZ\-/i.test(data.name)) {
 			return {
 				"error": "Contact name must contain alphabetic characters."
 			};
@@ -102,10 +102,10 @@ var NRS = (function(NRS, $, undefined) {
 			}
 		}
 
-		if (/^NXT\-/i.test(data.account_id)) {
+		if (/^NHZ\-/i.test(data.account_id)) {
 			data.account_rs = data.account_id;
 
-			var address = new NxtAddress();
+			var address = new NhzAddress();
 
 			if (address.set(data.account_rs)) {
 				data.account = address.account_id();
@@ -115,7 +115,7 @@ var NRS = (function(NRS, $, undefined) {
 				};
 			}
 		} else {
-			var address = new NxtAddress();
+			var address = new NhzAddress();
 
 			if (address.set(data.account_id)) {
 				data.account_rs = address.toString();
@@ -172,7 +172,7 @@ var NRS = (function(NRS, $, undefined) {
 					$btn.button("reset");
 					$modal.modal("unlock");
 					$modal.modal("hide");
-					$.growl("Contact added successfully.", {
+					$.growl(i18n.t("js.contactaddedsuc"), {
 						"type": "success"
 					});
 
@@ -198,7 +198,7 @@ var NRS = (function(NRS, $, undefined) {
 		if (!contactId && NRS.selectedContext) {
 			var accountId = NRS.selectedContext.data("account");
 
-			var dbKey = (/^NXT\-/i.test(accountId) ? "accountRS" : "account");
+			var dbKey = (/^NHZ\-/i.test(accountId) ? "accountRS" : "account");
 
 			var dbQuery = {};
 			dbQuery[dbKey] = accountId;
@@ -270,10 +270,10 @@ var NRS = (function(NRS, $, undefined) {
 			};
 		}
 
-		if (/^NXT\-/i.test(data.account_id)) {
+		if (/^NHZ\-/i.test(data.account_id)) {
 			data.account_rs = data.account_id;
 
-			var address = new NxtAddress();
+			var address = new NhzAddress();
 
 			if (address.set(data.account_rs)) {
 				data.account_id = address.account_id();
@@ -283,7 +283,7 @@ var NRS = (function(NRS, $, undefined) {
 				};
 			}
 		} else {
-			var address = new NxtAddress();
+			var address = new NhzAddress();
 
 			if (address.set(data.account_id)) {
 				data.account_rs = address.toString();
@@ -340,7 +340,7 @@ var NRS = (function(NRS, $, undefined) {
 					$btn.button("reset");
 					$modal.modal("unlock");
 					$modal.modal("hide");
-					$.growl("Contact updated successfully.", {
+					$.growl(i18n.t("js.contactupdatesuc"), {
 						"type": "success"
 					});
 
@@ -382,7 +382,7 @@ var NRS = (function(NRS, $, undefined) {
 		}], function() {
 			delete NRS.contacts[$("#delete_contact_account_id").val()];
 
-			$.growl("Contact deleted successfully.", {
+			$.growl(i18n.t("js.contactdelete"), {
 				"type": "success"
 			});
 

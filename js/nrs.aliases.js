@@ -94,7 +94,7 @@ var NRS = (function(NRS, $, undefined) {
 			}, function(response) {
 				if (/http:\/\//i.test(response.uri)) {
 					NRS.forms.setAliasType("uri");
-				} else if (/acct:(\d+)@nxt/.test(response.uri) || /nacc:(\d+)/.test(response.uri)) {
+				} else if (/acct:(\d+)@nhz/.test(response.uri) || /nacc:(\d+)/.test(response.uri)) {
 					NRS.forms.setAliasType("account");
 				} else {
 					NRS.forms.setAliasType("general");
@@ -129,9 +129,9 @@ var NRS = (function(NRS, $, undefined) {
 		data.uri = $.trim(data.uri);
 
 		if (data.type == "account") {
-			if (!(/acct:(\d+)@nxt/.test(data.uri)) && !(/nacc:(\d+)/.test(data.uri))) {
+			if (!(/acct:(\d+)@nhz/.test(data.uri)) && !(/nacc:(\d+)/.test(data.uri))) {
 				if (/^\d+$/.test(data.uri)) {
-					data.uri = "acct:" + data.uri + "@nxt";
+					data.uri = "acct:" + data.uri + "@nhz";
 				} else {
 					return {
 						"error": "Invalid account ID."
@@ -175,9 +175,9 @@ var NRS = (function(NRS, $, undefined) {
 			$("#register_alias_uri").prop("placeholder", "Account ID");
 			$("#register_alias_uri").val("");
 			if (uri) {
-				if (!(/acct:(\d+)@nxt/.test(uri)) && !(/nacc:(\d+)/.test(uri))) {
+				if (!(/acct:(\d+)@nhz/.test(uri)) && !(/nacc:(\d+)/.test(uri))) {
 					if (/^\d+$/.test(uri)) {
-						$("#register_alias_uri").val("acct:" + uri + "@nxt");
+						$("#register_alias_uri").val("acct:" + uri + "@nhz");
 					} else {
 						$("#register_alias_uri").val("");
 					}
@@ -187,7 +187,7 @@ var NRS = (function(NRS, $, undefined) {
 			} else {
 				$("#register_alias_uri").val("");
 			}
-			$("#register_alias_help").html("The alias will reference the account number entered and can be used to send Nxt to, messages, etc..").show();
+			$("#register_alias_help").html(i18n.t("js.aliasref")).show();
 		} else {
 			$("#register_alias_uri_label").html("Data");
 			$("#register_alias_uri").prop("placeholder", "Data");
@@ -196,7 +196,7 @@ var NRS = (function(NRS, $, undefined) {
 			} else {
 				$("#register_alias_uri").val("");
 			}
-			$("#register_alias_help").html("The alias can contain any data you want.").show();
+			$("#register_alias_help").html(i18n.t("js.containall")).show();
 		}
 	}
 
