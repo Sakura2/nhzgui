@@ -151,10 +151,6 @@ var NRS = (function(NRS, $, undefined) {
 				});
 			} else {
 				if (address.guess.length == 1) {
-
-				
-				
-				
 					callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.didyoumean") + String(address.guess[0]).escapeHTML() + "' onclick='NRS.correctAddressMistake(this);'>" + address.format_guess(address.guess[0], account) + "</span> ?").show();
 				} else if (address.guess.length > 1) {
 					var html = i18n.t("js.didyoumeann");
@@ -216,15 +212,15 @@ var NRS = (function(NRS, $, undefined) {
 		NRS.sendRequest("getAlias", {
 			"aliasName": account
 		}, function(response) {
-					if (response.errorCode) {
-						callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? i18n.t("js.err") + response.errorDescription.escapeHTML() : i18n.t("js.errnoali")).show();
-					} else {
-						if (response.aliasURI) {
-							var alias = String(response.aliasURI);
-							var timestamp = response.timestamp;
+			if (response.errorCode) {
+				callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? i18n.t("js.err") + response.errorDescription.escapeHTML() : i18n.t("js.errnoali")).show();
+			} else {
+				if (response.aliasURI) {
+					var alias = String(response.aliasURI);
+					var timestamp = response.timestamp;
 
-							var regex_1 = /acct:(\d+)@nhz/;
-							var regex_2 = /nacc:(\d+)/;
+					var regex_1 = /acct:(\d+)@nhz/;
+					var regex_2 = /nacc:(\d+)/;
 
 					var match = alias.match(regex_1);
 
@@ -232,22 +228,20 @@ var NRS = (function(NRS, $, undefined) {
 						match = alias.match(regex_2);
 					}
 
-							if (match && match[1]) {
-								NRS.getAccountError(match[1], function(response) {
-									accountInputField.val(match[1].escapeHTML());
-									callout.html(i18n.t("js.aliaslinksto") + match[1].escapeHTML() + "</strong>, " + response.message.replace("The recipient account", "which") + i18n.t("js.aliaslastadj") + NRS.formatTimestamp(timestamp) + ".").removeClass(classes).addClass("callout-" + response.type).show();
-								});
-							} else {
-								callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.aliasnoacclink") + (!alias ? i18n.t("js.uriempty") : i18n.t("js.uriis") + alias.escapeHTML() + "'")).show();
-							}
-						} else if (response.aliasName) {
-							callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.aliasemptyuri")).show();
-						} else {
-							callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? "Error: " + response.errorDescription.escapeHTML() : i18n.t("js.aliasnoexist")).show();
-						}
+					if (match && match[1]) {
+						NRS.getAccountError(match[1], function(response) {
+							accountInputField.val(match[1].escapeHTML());
+							callout.html(i18n.t("js.aliaslinksto") + match[1].escapeHTML() + "</strong>, " + response.message.replace("The recipient account", "which") + i18n.t("js.aliaslastadj") + NRS.formatTimestamp(timestamp) + ".").removeClass(classes).addClass("callout-" + response.type).show();
+						});
+					} else {
+						callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.aliasnoacclink") + (!alias ? i18n.t("js.uriempty") : i18n.t("js.uriis") + alias.escapeHTML() + "'")).show();
 					}
-				});
-			
+				} else if (response.aliasName) {
+					callout.removeClass(classes).addClass("callout-danger").html(i18n.t("js.aliasemptyuri")).show();
+				} else {
+					callout.removeClass(classes).addClass("callout-danger").html(response.errorDescription ? "Error: " + response.errorDescription.escapeHTML() : i18n.t("js.aliasnoexist")).show();
+				}
+			}
 		});
 	}
 

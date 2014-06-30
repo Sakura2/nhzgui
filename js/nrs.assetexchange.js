@@ -1346,7 +1346,7 @@ var NRS = (function(NRS, $, undefined) {
 			}], function() {
 				setTimeout(function() {
 					NRS.pages.asset_exchange();
-					$.growl(i18n.t("js.assetgrouperem", {
+					$.growl("Asset removed from group successfully.", {
 						"type": "success"
 					});
 				}, 50);
