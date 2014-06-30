@@ -143,14 +143,14 @@
         "nobuy": "暂无买单."
     },
     "myassets": {
-        "myassets": "My Assets",
-        "total": "Total Available",
-        "percent": "Percentage",
-        "lowask": "Lowest Ask",
-        "highbid": "Highest Bid",
-        "value": "Value in NHZ",
-        "transfer": "Transfer",
-        "noassets": "No assets yet, go buy some on the exchange!"
+        "myassets": "我的资产",
+        "total": "总计",
+        "percent": "占比",
+        "lowask": "最低卖价",
+        "highbid": "最高买价",
+        "value": "以NHZ计价",
+        "transfer": "转让",
+        "noassets": "暂无资产，到交易所买点吧!"
     },
     "aepage": {
         "aepage": "Asset Exchange",
