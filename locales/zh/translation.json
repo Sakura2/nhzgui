@@ -131,16 +131,16 @@
 	"pending": "Pending"
     },
     "openorders": {
-        "openorders": "Open Orders",
-        "sell": "Sell Orders",
-        "asset": "Asset",
-        "qty": "Quantity",
-        "price": "Price",
-        "total": "Total",
-        "cancel": "Cancel",
-        "nosell": "No open sell orders.",
-        "buy": "Buy Orders",
-        "nobuy": "No open buy orders."
+        "openorders": "买单",
+        "sell": "卖单",
+        "asset": "资产",
+        "qty": "数量",
+        "price": "价格",
+        "total": "总计",
+        "cancel": "取消",
+        "nosell": "没有卖单.",
+        "buy": "买单",
+        "nobuy": "暂无买单."
     },
     "myassets": {
         "myassets": "My Assets",
