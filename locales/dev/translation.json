@@ -440,7 +440,7 @@
 		"waitbc": "Please wait until the blockchain has finished downloading",
 		"bcrescan": "The blockchain is currently being rescanned. Please wait a minute and then try submitting again.",
 		"bcdownload": "The blockchain is currently downloading. Please wait until it is up to date.",
-		"Youridis": "Your account ID is: <strong>",
+		"youridis": "Your account ID is: <strong>",
 		"bcrescanwait": "The blockchain is currently rescanning. Please wait until that has completed.",
 		"welcomenewacc": "Welcome to your brand new account. You should found it with some coins. Your Account ID is: <strong>",
 		"unknownerror": "An unknown error occured.",

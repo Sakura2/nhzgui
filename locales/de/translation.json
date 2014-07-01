@@ -440,7 +440,7 @@
 		"waitbc": "Bitte warten Sie bis der Blockchain Download abgeschlossen ist.",
 		"bcrescan": "Die Blockchain wird im Augenblick neu gescannt. Bitte warten Sie eine Minute und versuchen es erneut.",
 		"bcdownload": "Die Blockchain wird im Augenblick heruntergeladen. Bitte warten Sie bis sie aktuell ist.",
-		"Youridis": "Ihre Konto ID ist: <strong>",
+		"youridis": "Ihre Konto ID ist: <strong>",
 		"bcrescanwait": "Die Blockchain wird aktuell neu gescannt. Bitte warten Sie bis der Vorgang abgeschlossen ist.",
 		"welcomenewacc": "Wilkommen zu Ihrem nagelneuen Konto. Sie sollten ein paar Coins einzahlen. Ihre Konto ID ist: <strong>",
 		"unknownerror": "Es ist ein unbekannter Fehler aufgetreten.",
