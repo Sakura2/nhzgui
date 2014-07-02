@@ -7,6 +7,7 @@
         "sendmsg": "Send Message",
         "gentoken": "Generate Token",
         "settings": "Settings",
+	"nhzchat": "IRC Chat",
         "nhzforum": "NHZ Forum",
         "tutorial": "Interface Tutorial",
         "aetutorial": "Asset Exchange Tutorial",
