@@ -7,7 +7,7 @@ var NRS = (function(NRS, $, undefined) {
 		"fee_warning": "100000000000",
 		"amount_warning": "10000000000000",
 		"asset_transfer_warning": "10000",
-		"languages": 3
+		"languages": -1
 	};
 
 	NRS.defaultColors = {

@@ -1,4 +1,4 @@
-﻿{
+{
     "app": {
         "name": "NHZ"
     },
@@ -89,7 +89,7 @@
         "sendone": "Nachricht senden",
         "message": "Nachricht",
         "secret": "Passwort",
-        "encrypt": "Verschlüsseln",
+        "encrypt": "Verschlüsseln<input type='checkbox' name='inline_message_encrypt' id='inline_message_encrypt' value='1' />",
         "send": "Senden",
         "submit": "Überträgt..."
     },

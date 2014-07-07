@@ -1,4 +1,4 @@
-﻿{
+{
     "app": {
         "name": "NHZ"
     },
@@ -89,7 +89,7 @@
         "sendone": "来一发",
         "message": "Message",
         "secret": "Secret Phrase",
-        "encrypt": "加密",
+        "encrypt": "加密<input type='checkbox' name='inline_message_encrypt' id='inline_message_encrypt' value='1' />",
         "send": "发送",
         "submit": "Submitting..."
     },
