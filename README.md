@@ -1,4 +1,4 @@
-nxtui
+nhzui
 =====
 
-NXT client GUI
+NHZ client GUI
