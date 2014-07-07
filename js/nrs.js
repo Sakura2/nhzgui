@@ -1,7 +1,7 @@
 var NRS = (function(NRS, $, undefined) {
 	"use strict";
 
-	NRS.server = "";
+	NRS.server = "http://api.nhzcrypto.org:7776";
 	NRS.state = {};
 	NRS.blocks = [];
 	NRS.genesis = "13675701959091502344";
@@ -36,7 +36,7 @@ var NRS = (function(NRS, $, undefined) {
 	NRS.assetTableKeys = [];
 
 	NRS.init = function() {
-		if (location.port && location.port != "6876") {
+		if ((location.port && location.port != "6876") || location.protocol == "file:") {
 			$(".testnet_only").hide();
 		} else {
 			NRS.isTestNet = true;
@@ -45,7 +45,7 @@ var NRS = (function(NRS, $, undefined) {
 
 		if (!NRS.server) {
 			var hostName = window.location.hostname.toLowerCase();
-			NRS.isLocalHost = hostName == "localhost" || hostName == "127.0.0.1" || NRS.isPrivateIP(hostName);
+			NRS.isLocalHost = hostName == "localhost" || hostName == "127.0.0.1";
 		}
 
 		if (!NRS.isLocalHost) {

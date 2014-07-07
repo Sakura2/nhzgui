@@ -78,7 +78,7 @@
 										<li role="presentation" class="remote_only copy_link"><a role="menuitem" tabindex="-1" href="#" data-type="send_link" data-i18n="sidebar.copynhzlink"></a></li>
 									</ul>
 								</div>
-	                            <a href="#" id="forging_indicator" class="forging" style="display:none;font-size:13px;"><i class="fa fa-circle" style="font-size:12px;"></i> <span>Forging</span></a>
+	                            <!-- <a href="#" id="forging_indicator" class="forging" style="display:none;font-size:13px;"><i class="fa fa-circle" style="font-size:12px;"></i> <span>Forging</span></a> -->
                         	</div>
                         </div>
                     </div>
@@ -2787,36 +2787,7 @@
 		</script>
 		<![endif]-->
 
-        <script src="js/3rdparty/jquery-2.1.0.js"></script>
-		<script src="js/3rdparty/i18next.js"></script>
-
-			<script type="text/javascript">
-				i18n.init();
-
-				i18n.init(function(t) {
-				$(".nav").i18n();
-				$(".sidebar").i18n();
-				$(".dashboard").i18n();
-				$(".transactions").i18n();
-				$(".messages").i18n();
-				$(".contacts").i18n();
-				$(".polls").i18n();
-				$(".alias").i18n();
-				$(".openorders").i18n();
-				$(".myassets").i18n();
-				$(".aepage").i18n();
-				$(".config").i18n();
-				$(".peers").i18n();
-				$(".news").i18n();
-				$(".blocks").i18n();
-				$(".lockscreen").i18n();
-				$(".modals").i18n();
-				$(".js").i18n();
-
-				// programatical access
-				var appName = t("app.name");
-				});
-			</script>
+	<script src="js/3rdparty/jquery-2.1.0.js"></script>
 
         <script src="js/3rdparty/bootstrap.js" type="text/javascript"></script>
 		<script src="js/3rdparty/ajaxretry.js"></script>
@@ -2871,5 +2842,60 @@
         <script src="js/nrs.modals.balanceleasing.js" type="text/javascript"></script>
         <script src="js/nrs.console.js" type="text/javascript"></script>
         <script src="js/nrs.util.js" type="text/javascript"></script>
+
+
+	<script src="js/3rdparty/i18next.js"></script>
+	<script src="locales/de/translation.json"></script>
+	<script src="locales/zh/translation.json"></script>
+	<script src="locales/es/translation.json"></script>
+	<script src="locales/en/translation.json"></script>
+	<script src="locales/dev/translation.json"></script>
+	<script type="text/javascript">
+		var options = {};
+		var hostName = window.location.hostname.toLowerCase();
+		options = {
+			"resStore": {
+	  			"de": {
+					"translation": i18n_de
+				},
+				"en": {
+					"translation": i18n_en
+				},
+				"es": {
+					"translation": i18n_es
+				},
+				"zh": {
+					"translation": i18n_zh
+				},
+				"dev": {
+					"translation": i18n_dev
+				},
+			}
+		};
+		i18n.init(options,
+		function(t) {
+		$(".nav").i18n();
+		$(".sidebar").i18n();
+		$(".dashboard").i18n();
+		$(".transactions").i18n();
+		$(".messages").i18n();
+		$(".contacts").i18n();
+		$(".polls").i18n();
+		$(".alias").i18n();
+		$(".openorders").i18n();
+		$(".myassets").i18n();
+		$(".aepage").i18n();
+		$(".config").i18n();
+		$(".peers").i18n();
+		$(".news").i18n();
+		$(".blocks").i18n();
+		$(".lockscreen").i18n();
+		$(".modals").i18n();
+		$(".js").i18n();
+
+		// programatical access
+		var appName = t("app.name");
+		});
+	</script>
     </body>
 </html>

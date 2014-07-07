@@ -117,7 +117,7 @@
         selectorAttr: 'data-i18n',
         debug: false,
 
-        resGetPath: 'locales/__lng__/__ns__.json',
+        resGetPath: '/locales/__lng__/__ns__.json',
         resPostPath: 'locales/add/__lng__/__ns__',
 
         getAsync: true,

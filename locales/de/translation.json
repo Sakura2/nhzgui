@@ -1,4 +1,4 @@
-{
+var i18n_de = {
     "app": {
         "name": "NHZ"
     },
