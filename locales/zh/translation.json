@@ -235,8 +235,8 @@
     },
     "blocks": {
         "blocks": "数据块",
-        "allblocks": "All Blocks",
-        "byyou": "Forged By You",
+        "allblocks": "All Blocks<input type='radio' name='blocks_page_type'>",
+        "byyou": "Forged By You<input type='radio' name='blocks_page_type'>",
         "avperblock": "每块均值",
         "avfee": "每块费用均值",
         "transperh": "每小时交易量",

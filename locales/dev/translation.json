@@ -236,8 +236,8 @@
     },
     "blocks": {
         "blocks": "Blocks",
-        "allblocks": "All Blocks",
-        "byyou": "Forged By You",
+        "allblocks": "All Blocks<input type='radio' name='blocks_page_type'>",
+        "byyou": "Forged By You<input type='radio' name='blocks_page_type'>",
         "avperblock": "Avg. Amount Per Block",
         "avfee": "Avg. Fee Per Block",
         "transperh": "Transactions Per Hour",
