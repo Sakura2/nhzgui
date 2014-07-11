@@ -129,12 +129,12 @@ var NRS = (function(NRS, $, undefined) {
 	NRS.forms.setAlias = function($modal) {
 		var data = NRS.getFormData($modal.find("form:first"));
 
-		data.uri = $.trim(data.uri);
+		data.aliasURI = $.trim(data.aliasURI);
 
 		if (data.type == "account") {
-			if (!(/acct:(\d+)@nhz/.test(data.uri)) && !(/nacc:(\d+)/.test(data.uri))) {
-				if (/^\d+$/.test(data.uri)) {
-					data.uri = "acct:" + data.uri + "@nhz";
+			if (!(/acct:(\d+)@nhz/.test(data.aliasURI)) && !(/nacc:(\d+)/.test(data.aliasURI))) {
+				if (/^\d+$/.test(data.aliasURI)) {
+					data.aliasURI = "acct:" + data.aliasURI + "@nhz";
 				} else {
 					return {
 						"error": "Invalid account ID."
@@ -222,15 +222,15 @@ var NRS = (function(NRS, $, undefined) {
 				$row.addClass("tentative");
 				$row.find("td.alias").html(data.alias.escapeHTML() + " - <strong>Pending</strong>");
 
-				if (data.uri && data.uri.indexOf("http") === 0) {
-					$row.find("td.uri").html("<a href='" + String(data.uri).escapeHTML() + "' target='_blank'>" + String(data.uri).escapeHTML() + "</a>");
+				if (data.aliasURI && data.aliasURI.indexOf("http") === 0) {
+					$row.find("td.uri").html("<a href='" + String(data.aliasURI).escapeHTML() + "' target='_blank'>" + String(data.aliasURI).escapeHTML() + "</a>");
 				} else {
-					$row.find("td.uri").html(String(data.uri).escapeHTML());
+					$row.find("td.uri").html(String(data.aliasURI).escapeHTML());
 				}
 			} else {
 				var $rows = $table.find("tr");
 
-				var rowToAdd = "<tr class='tentative' data-alias='" + data.alias.toLowerCase().escapeHTML() + "'><td class='alias'>" + data.alias.escapeHTML() + " -  <strong data-i18n='alias.pending'></strong></td><td class='uri'>" + (data.uri && data.uri.indexOf("http") === 0 ? "<a href='" + String(data.uri).escapeHTML() + "' target='_blank'>" + data.uri.escapeHTML() + "</a>" : String(data.uri).escapeHTML()) + "</td><td>Edit</td></tr>";
+				var rowToAdd = "<tr class='tentative' data-alias='" + data.alias.toLowerCase().escapeHTML() + "'><td class='alias'>" + data.alias.escapeHTML() + " -  <strong data-i18n='alias.pending'></strong></td><td class='uri'>" + (data.aliasURI && data.aliasURI.indexOf("http") === 0 ? "<a href='" + String(data.aliasURI).escapeHTML() + "' target='_blank'>" + data.aliasURI.escapeHTML() + "</a>" : String(data.aliasURI).escapeHTML()) + "</td><td>Edit</td></tr>";
 
 				var rowAdded = false;
 
