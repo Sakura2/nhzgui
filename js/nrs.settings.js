@@ -877,7 +877,7 @@ var NRS = (function(NRS, $, undefined) {
 				$(".modal form").off("submit.onEnter");
 			}
 		}
-		
+
 		if (!key || key == "languages") {
 			if (NRS.settings["languages"] == 0) {
 				i18n.setLng('en');
@@ -887,9 +887,11 @@ var NRS = (function(NRS, $, undefined) {
 				i18n.setLng('es');
 			} else if (NRS.settings["languages"] == 3) {
 				i18n.setLng('zh');
-			}
+			} else if (NRS.settings["languages"] == 4) {
+                i18n.setLng('hu');
+            }
 			i18n.init(function(t) {
-								
+
 				$(".nav").i18n();
 				$(".sidebar").i18n();
 				$(".dashboard").i18n();
@@ -912,10 +914,10 @@ var NRS = (function(NRS, $, undefined) {
 				// programatical access
 				var appName = t("app.name");
 				});
-		
+
 		}
-		
-		
+
+
 
 		if (!key || key == "animate_forging") {
 			if (NRS.settings["animate_forging"]) {
