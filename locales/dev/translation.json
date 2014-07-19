@@ -502,7 +502,7 @@
 		"to": "<strong>To</strong>: ",
 		"from": "<strong>From</strong>: ",
 		"viewinae": "'>Click here</a> to view this asset in the Asset Exchange.",
-		"hasbeensent: ": "NHZ has been sent! <a href='#' data-account='",
+		"hasbeensent": "NHZ has been sent! <a href='#' data-account='",
 		"addtocontacts": "' data-toggle='modal' data-target='#add_contact_modal' style='text-decoration:underline'>Add recipient to contacts?</a>",
 		"hasbeensentt": "NHZ has been sent!",
 		"rechasbal": "The recipient account has a public key and a balance of ",
