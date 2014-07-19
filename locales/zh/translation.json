@@ -501,7 +501,7 @@ var i18n_zh = ﻿{
 		"to": "<strong>To</strong>: ",
 		"from": "<strong>From</strong>: ",
 		"viewinae": "'>点击这里</a> 到资产交易所查看.",
-		"hasbeensent: ": "NHZ已发送! <a href='#' data-account='",
+		"hasbeensent": "NHZ已发送! <a href='#' data-account='",
 		"addtocontacts": "' data-toggle='modal' data-target='#add_contact_modal' style='text-decoration:underline'>添加接收者为联系人?</a>",
 		"hasbeensentt": "NHZ已发送!",
 		"rechasbal": "该接收者的帐户有公钥，且它的余额为",

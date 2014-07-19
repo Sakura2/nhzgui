@@ -8,7 +8,7 @@ var NRS = (function(NRS, $, undefined) {
 			$("#forging_indicator").addClass("forging");
 			$("#forging_indicator span").html("Forging");
 			NRS.isForging = true;
-			$.growl(i18n.t("js.forgingstartsuc"), {
+			$.growl(i18n.t("js.forgestartsuc"), {
 				type: "success"
 			});
 		} else {
@@ -19,8 +19,8 @@ var NRS = (function(NRS, $, undefined) {
 		}
 	}
 
-	
-	
+
+
 	NRS.forms.stopForgingComplete = function(response, data) {
 		if ($("#stop_forging_modal .show_logout").css("display") == "inline") {
 			NRS.logout();
@@ -33,7 +33,7 @@ var NRS = (function(NRS, $, undefined) {
 		NRS.isForging = false;
 
 		if (response.foundAndStopped) {
-			$.growl(i18n.t("js.forgingstopsuc"), {
+			$.growl(i18n.t("js.forgestopsuc"), {
 				type: 'success'
 			});
 		} else {
@@ -43,13 +43,13 @@ var NRS = (function(NRS, $, undefined) {
 		}
 	}
 
-	
-	
+
+
 	$("#forging_indicator").click(function(e) {
 		e.preventDefault();
 
 		i18n.t("js.msgsenthtml")
-				
+
 		if (NRS.downloadingBlockchain) {
 			$.growl(i18n.t("js.noforgebcdown"), {
 				"type": "danger"

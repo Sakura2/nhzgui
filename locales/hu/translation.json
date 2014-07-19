@@ -502,7 +502,7 @@ var i18n_hu = {
         "to": "<strong>Ba</strong>: ",
         "from": "<strong>Ból</strong>: ",
         "viewinae": "'>Kattinst ide</a> hogy ez a részvéby felkerüljön a részvénylistára.",
-        "hasbeensent: ": "NHZ elküldve! <a href='#' data-account='",
+        "hasbeensent": "NHZ elküldve! <a href='#' data-account='",
         "addtocontacts": "' data-toggle='modal' data-target='#add_contact_modal' style='text-decoration:underline'>A címzett bekerüljön a kapcsolatok közé?</a>",
         "hasbeensentt": "NHZ elküldve!",
         "rechasbal": "A címzettenk van publikus kulcsa. Egyelege: ",
